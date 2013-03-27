@@ -1,0 +1,113 @@
+diff --git a/pom.xml b/pom.xml
+index e743124..752b264 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -1,34 +1,30 @@
++<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+   <modelVersion>4.0.0</modelVersion>
+ 
+   <parent>
+-    <groupId>org.jenkins-ci.plugins</groupId>
+-    <artifactId>plugin</artifactId>
+-    <version>1.475</version><!-- which version of Hudson is this plugin built against? -->
+-    <relativePath>../pom.xml</relativePath>
++    <groupId>org.eclipse.hudson.plugins</groupId>
++    <artifactId>hudson-plugin-parent</artifactId>
++    <version>3.0.1-b2</version>
++    <!-- which version of Hudson is this plugin built against? -->
++    <relativePath/>
+   </parent>
+ 
++  <groupId>org.hudsonci.plugins</groupId>
+   <artifactId>xfpanel</artifactId>
+   <packaging>hpi</packaging>
+   <name>eXtreme Feedback Panel</name>
+-  <version>1.1.5</version>
++  <version>1.1.5-h-1-SNAPSHOT</version>
+   <description>Provides an eXtreme Feedback Panel for Hudson. Thanks to Mark Howard and his work on the Radiator View Plugin from which this was based.</description>
+-  <url>https://wiki.jenkins-ci.org/display/JENKINS/eXtreme+Feedback+Panel+Plugin</url>
++  <url>https://wiki.hudson-ci.org/display/HUDSON/eXtreme+Feedback+Panel+Plugin</url>
+ 
+   <scm>
+-    <connection>scm:git:ssh://github.com/jenkinsci/xfpanel-plugin.git</connection>
+-    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/xfpanel-plugin.git</developerConnection>
+-    <url>https://github.com/jenkinsci/xfpanel-plugin</url>
++    <connection>scm:git:git://github.com/hudson3-plugins/xfpanel-plugin.git</connection>
++    <developerConnection>scm:git:git@github.com:hudson3-plugins/xfpanel-plugin.git</developerConnection>
++    <url>https://github.com/hudson3-plugins/xfpanel-plugin</url>
+   </scm>
+ 
+-  <distributionManagement>
+-    <repository>
+-      <id>maven.jenkins-ci.org</id>
+-      <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
+-    </repository>
+-  </distributionManagement>
+-
+   <developers>
+     <developer>
+       <id>jrenaut</id>
+@@ -42,25 +38,12 @@
+     </developer>
+   </developers>
+ 
+-  <repositories>
+-      <repository>
+-          <id>repo.jenkins-ci.org</id>
+-          <url>http://repo.jenkins-ci.org/public/</url>
+-      </repository>
+-  </repositories>
+-
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
++  <hudsonTags>report</hudsonTags>
+   </properties>
+ 
+-  <pluginRepositories>
+-      <pluginRepository>
+-          <id>repo.jenkins-ci.org</id>
+-          <url>http://repo.jenkins-ci.org/public/</url>
+-      </pluginRepository>
+-  </pluginRepositories>
+-
+   <build>
+     <plugins>
+         <plugin>
+@@ -87,9 +70,17 @@
+ 
+   <dependencies>
+       <dependency>
+-          <groupId>org.jvnet.hudson.plugins</groupId>
++          <groupId>org.hudsonci.plugins</groupId>
+           <artifactId>claim</artifactId>
+-          <version>1.7</version>
++          <version>1.8-h-1</version>
+       </dependency>
+   </dependencies>
++  
++  <licenses>
++    <license>
++      <name>The MIT license</name>
++      <url>http://opensource.org/licenses/MIT</url>
++      <distribution>repo</distribution>
++    </license>
++  </licenses>
+ </project>
+diff --git a/src/main/java/maps/hudson/plugin/xfpanel/XFPanelView.java b/src/main/java/maps/hudson/plugin/xfpanel/XFPanelView.java
+index 9f71acd..de9f481 100644
+--- a/src/main/java/maps/hudson/plugin/xfpanel/XFPanelView.java
++++ b/src/main/java/maps/hudson/plugin/xfpanel/XFPanelView.java
+@@ -1009,8 +1009,10 @@ public class XFPanelView extends ListView {
+ 		private void findStatus() {
+ 			switch (this.job.getIconColor()) {
+ 			case BLUE_ANIME:
++      case GREEN_ANIME:
+ 				this.building = true;
+ 			case BLUE:
++      case GREEN:
+ 				this.backgroundColor = getColors().getOkBG(); 
+ 				this.color = colors.getOkFG();
+ 				this.colorFade = "build-fade-ok.png";
